@@ -1,0 +1,25 @@
+# Segredos e configuração local
+.env
+.env.*
+!.env.example
+
+# Ambientes Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Dados locais e saídas
+instance/
+*.sqlite3
+*.db
+*.log
+
+# Arquivos restritos: não publicar no GitHub
+private_assets/*
+!private_assets/.gitkeep
+
+# Sistema/editor
+.DS_Store
+Thumbs.db
+.vscode/
