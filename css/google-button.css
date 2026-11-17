@@ -1,0 +1,20 @@
+/* Adicionar ao final de css/style.css durante a integração. */
+.google-button-active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 25px;
+  border: 1px solid #d9e0e9;
+  background: #fff;
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.google-button-active:hover {
+  background: #f7f9fc;
+  border-color: #b9c7d9;
+}

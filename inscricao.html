@@ -5,34 +5,35 @@
   <meta name="theme-color" content="#102d62"><title>Inscrições | VI Jornada Acadêmica</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css"><script defer src="js/main.js"></script>
+  <link rel="stylesheet" href="/css/style.css"><script defer src="/js/main.js"></script>
 </head>
 <body class="subpage">
   <header class="site-header"><div class="header-inner">
-    <a class="brand" href="index.html" aria-label="Voltar ao início"><img src="assets/logo-jornada-original.png" alt="Logo oficial da VI Jornada Acadêmica"></a>
-    <nav class="main-nav subpage-nav" aria-label="Navegação principal"><a href="index.html#jornada">A Jornada</a><a href="index.html#eixos">Eixos</a><a href="index.html#participar">Como participar</a></nav>
-    <a class="header-access" href="login.html">Área de acesso <span aria-hidden="true">↗</span></a>
+    <a class="brand" href="/" aria-label="Voltar ao início"><img src="/assets/logo-jornada-original.png" alt="Logo oficial da VI Jornada Acadêmica"></a>
+    <nav class="main-nav subpage-nav" aria-label="Navegação principal"><a href="/#jornada">A Jornada</a><a href="/#eixos">Eixos</a><a href="/#participar">Como participar</a></nav>
+    <a class="header-access" href="/login">Área de acesso <span aria-hidden="true">↗</span></a>
   </div></header>
   <main class="form-page">
     <div class="form-shell">
-      <a class="back-link" href="index.html">← Voltar à página inicial</a>
+      <a class="back-link" href="/">← Voltar à página inicial</a>
       <p class="section-kicker">VI JORNADA ACADÊMICA · UNINASSAU TERESINA</p>
       <h1>Inscrição de participante</h1>
-      <p class="form-intro">Preencha os dados solicitados para registrar seu interesse em participar da Jornada. A inscrição será validada pela organização.</p>
-      <form class="prototype-form" id="registrationForm">
+      <p class="form-intro">Preencha os dados solicitados para registrar seu interesse em participar da Jornada. A inscrição ficará pendente até a validação da organização.</p>
+      <form class="prototype-form" id="registrationForm" method="post" action="/inscricao.html">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="form-grid">
-          <label>Nome completo<input name="nome" autocomplete="name" placeholder="Seu nome completo" required></label>
-          <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com" required></label>
-          <label>CPF<input name="cpf" inputmode="numeric" placeholder="000.000.000-00" required></label>
-          <label>Matrícula<input name="matricula" placeholder="Número de matrícula" required></label>
-          <label class="field-full">Curso<input name="curso" placeholder="Informe seu curso" required></label>
+          <label>Nome completo<input name="nome" autocomplete="name" maxlength="160" placeholder="Seu nome completo" required></label>
+          <label>E-mail<input name="email" type="email" autocomplete="email" maxlength="254" placeholder="seuemail@exemplo.com" required></label>
+          <label>CPF<input name="cpf" inputmode="numeric" maxlength="14" placeholder="000.000.000-00" required></label>
+          <label>Matrícula<input name="matricula" maxlength="40" placeholder="Número de matrícula" required></label>
+          <label class="field-full">Curso<input name="curso" maxlength="120" placeholder="Informe seu curso" required></label>
         </div>
-        <p class="form-privacy">Seus dados deverão ser tratados de forma restrita pela organização, conforme as regras de proteção de dados aplicáveis.</p>
+        <p class="form-privacy">Seus dados serão armazenados para fins de inscrição e tratados com acesso restrito pela organização, conforme a legislação de proteção de dados.</p>
         <button class="button button-navy" type="submit">Enviar inscrição <span aria-hidden="true">→</span></button>
-        <p class="prototype-notice" id="prototypeNotice" role="status">Prévia visual: o formulário ainda não envia nem armazena dados. A integração com o banco será implementada na próxima etapa.</p>
+        <p class="prototype-notice" role="note">Após o envio, sua inscrição ficará aguardando aprovação. O acesso à plataforma não é liberado automaticamente pelo preenchimento deste formulário.</p>
       </form>
     </div>
   </main>
-  <footer class="site-footer"><div class="section-wrap footer-bottom-inner single-footer"><span>© 2026 · VI Jornada Acadêmica · UNINASSAU Teresina</span><a href="index.html">Página inicial</a></div></footer>
+  <footer class="site-footer"><div class="section-wrap footer-bottom-inner single-footer"><span>© 2026 · VI Jornada Acadêmica · UNINASSAU Teresina</span><a href="/">Página inicial</a></div></footer>
 </body>
 </html>

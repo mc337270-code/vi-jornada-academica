@@ -23,3 +23,7 @@ private_assets/*
 .DS_Store
 Thumbs.db
 .vscode/
+
+.env
+.venv/
+__pycache__/

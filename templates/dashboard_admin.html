@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Painel administrativo</title><link rel="stylesheet" href="/css/style.css"></head>
+<body><main style="max-width:1100px;margin:50px auto;padding:24px"><p class="section-kicker">ADMINISTRAÇÃO</p><h1 style="color:#102d62">Cadastros aguardando aprovação</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<p role="status">{{ message }}</p>{% endfor %}{% endwith %}
+{% if pending_users %}<div style="overflow:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:12px">Participante</th><th style="text-align:left;padding:12px">E-mail</th><th style="text-align:left;padding:12px">Ação</th></tr></thead><tbody>
+{% for item in pending_users %}<tr><td style="padding:12px">{{ item.participant.full_name if item.participant else 'Cadastro incompleto' }}</td><td style="padding:12px">{{ item.email }}</td><td style="padding:12px"><form method="post" action="/admin/participantes/{{ item.id }}/aprovar"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="button button-navy" type="submit">Aprovar</button></form></td></tr>{% endfor %}
+</tbody></table></div>{% else %}<p>Não há cadastros pendentes.</p>{% endif %}<p><a class="button button-navy" href="/sair">Sair</a></p></main></body></html>

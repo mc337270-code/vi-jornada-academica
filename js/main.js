@@ -17,12 +17,5 @@ if (menuToggle && mainNav) {
   });
 }
 
-const registrationForm = document.querySelector("#registrationForm");
-const prototypeNotice = document.querySelector("#prototypeNotice");
-if (registrationForm && prototypeNotice) {
-  registrationForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    prototypeNotice.textContent = "Prévia visual: seus dados não foram enviados nem armazenados. O envio será habilitado após a integração segura com o banco de dados.";
-    prototypeNotice.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  });
-}
+// O formulário de inscrição agora é enviado ao Flask por POST.
+// Não interceptar o submit: o servidor valida e salva os dados no MySQL.

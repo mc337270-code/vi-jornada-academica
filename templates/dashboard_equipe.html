@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Painel do professor</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+
+<body>
+    <main style="max-width:900px;margin:60px auto;padding:24px">
+
+        <p class="section-kicker">PAINEL RESTRITO</p>
+        <h1 style="color:#102d62">Olá, {{ user.email }}</h1>
+        <p>Perfil: {{ profile }}.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <p style="padding:12px;border-radius:8px;background:#f1f1f1">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        {% endwith %}
+
+        <h2 style="color:#102d62;margin-top:35px">Leitura de QR Code</h2>
+
+        {% if not scanned_participant %}
+
+            <p>Posicione o QR Code diante da câmera.</p>
+
+            <div id="reader" style="max-width:500px;margin:25px auto"></div>
+
+            <form id="qr-form" method="POST" action="{{ url_for('identify_participant') }}">
+                <input type="hidden" name="csrf_token" id="csrf-token">
+                <input type="hidden" name="qr_token" id="qr-token">
+            </form>
+
+            <p id="mensagem" style="text-align:center"></p>
+
+        {% else %}
+
+            <section style="margin-top:25px;padding:20px;border:1px solid #ddd;border-radius:12px">
+
+                <h2 style="color:#102d62">Participante identificado!</h2>
+
+                <p><strong>Nome:</strong> {{ scanned_participant.full_name }}</p>
+                <p><strong>Curso:</strong> {{ scanned_participant.course }}</p>
+                <p><strong>Matrícula:</strong> {{ scanned_participant.registration_number }}</p>
+
+                <form method="POST" action="{{ url_for('confirm_attendance') }}">
+
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="qr_token" value="{{ scanned_participant.qr_token }}">
+
+                    <label for="event_day_id">Dia do evento:</label>
+
+                    <select name="event_day_id" id="event_day_id" required>
+                        <option value="">Selecione o dia</option>
+
+                        {% for day in event_days %}
+                            <option value="{{ day.id }}">
+                                {{ day.label }} - {{ day.event_date.strftime('%d/%m/%Y') }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <button type="submit" class="button button-navy">
+                        Confirmar presença
+                    </button>
+
+                </form>
+            </section>
+
+        {% endif %}
+
+        <p style="margin-top:30px">
+            <a class="button button-navy" href="{{ url_for('logout') }}">Sair</a>
+        </p>
+
+    </main>
+
+    {% if not scanned_participant %}
+    <script>
+        const mensagem = document.getElementById("mensagem");
+        const scanner = new Html5Qrcode("reader");
+
+        let enviando = false;
+
+        Html5Qrcode.getCameras().then(cameras => {
+
+            if (!cameras || cameras.length === 0) {
+                mensagem.textContent = "Nenhuma câmera encontrada.";
+                return;
+            }
+
+            scanner.start(
+                cameras[0].id,
+                { fps: 10, qrbox: 250 },
+
+                async (texto) => {
+
+                    if (enviando) return;
+                    enviando = true;
+
+                    mensagem.textContent = "QR Code identificado. Consultando participante...";
+
+                    try {
+                        await scanner.stop();
+
+                        document.getElementById("csrf-token").value =
+                            document.querySelector('meta[name="csrf-token"]').content;
+
+                        document.getElementById("qr-token").value = texto;
+
+                        document.getElementById("qr-form").requestSubmit();
+
+                    } catch (erro) {
+                        mensagem.textContent = "Erro ao enviar a identificação. Atualize a página e tente novamente.";
+                        enviando = false;
+                    }
+                }
+            );
+
+        }).catch(() => {
+            mensagem.textContent = "Não foi possível acessar a câmera. Verifique a permissão do navegador.";
+        });
+    </script>
+    {% endif %}
+
+</body>
+</html>

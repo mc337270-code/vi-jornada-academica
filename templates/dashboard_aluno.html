@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Área do participante</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <main style="max-width:900px;margin:60px auto;padding:24px">
+
+        <p class="section-kicker">ÁREA DO PARTICIPANTE</p>
+
+        <h1 style="color:#102d62">
+            Olá, {{ participant.full_name }}!
+        </h1>
+
+        <p>Seu acesso está autorizado. Este é seu espaço individual na VI Jornada Acadêmica.</p>
+
+        <p><strong>Curso:</strong> {{ participant.course }}</p>
+        <p><strong>Matrícula:</strong> {{ participant.registration_number }}</p>
+
+        <section style="margin-top:35px;text-align:center;padding:25px;border:1px solid #ddd;border-radius:12px">
+
+            <h2 style="color:#102d62">Seu QR Code de identificação</h2>
+
+            <p>Apresente este código à equipe responsável para registrar sua presença no evento.</p>
+
+            <img
+                src="/participante/qr.png"
+                alt="QR Code individual do participante"
+                style="width:240px;height:240px;max-width:100%;margin:20px auto;display:block"
+            >
+
+            <p style="font-size:14px;color:#555">
+                Este código é individual. Não compartilhe com outras pessoas.
+            </p>
+
+        </section>
+
+        <a class="button button-navy" href="/sair">Sair</a>
+
+    </main>
+</body>
+</html>
